@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-06-27 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "task_title",
+  "default_assigned_to",
+  "estimated_hours",
+  "due_after_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "task_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Task Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_assigned_to",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "estimated_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Estimated Hours"
+  },
+  {
+   "fieldname": "due_after_days",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Due After Days"
+  }
+ ],
+ "grid_page_length": 50,
+ "idx": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Smart Service Management",
+ "name": "Service Task Template",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

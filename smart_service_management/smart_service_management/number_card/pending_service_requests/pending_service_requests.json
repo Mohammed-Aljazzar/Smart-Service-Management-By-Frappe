@@ -1,0 +1,16 @@
+{
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Service Request",
+ "filters_json": "[[\"Service Request\",\"status\",\"=\",\"Pending Review\"]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Pending Service Requests",
+ "module": "Smart Service Management",
+ "name": "Pending Service Requests",
+ "owner": "Administrator",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Weekly"
+}

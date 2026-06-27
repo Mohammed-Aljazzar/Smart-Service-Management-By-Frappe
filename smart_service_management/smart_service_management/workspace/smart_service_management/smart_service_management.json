@@ -1,0 +1,162 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ssm-pending\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending Service Requests\",\"col\":3}},{\"id\":\"ssm-progress\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"In Progress Service Requests\",\"col\":3}},{\"id\":\"ssm-open-tasks\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open Service Tasks\",\"col\":3}},{\"id\":\"ssm-low-ratings\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Low Service Ratings\",\"col\":3}},{\"id\":\"ssm-shortcuts-header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Service Operations</b></span>\",\"col\":12}},{\"id\":\"ssm-catalog-shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Service Catalog\",\"col\":3}},{\"id\":\"ssm-request-shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Service Request\",\"col\":3}},{\"id\":\"ssm-report-shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Service Request Report\",\"col\":3}},{\"id\":\"ssm-task-shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Service Task\",\"col\":3}},{\"id\":\"ssm-feedback-shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Service Feedback\",\"col\":3}},{\"id\":\"ssm-spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"ssm-documents-header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Documents</b></span>\",\"col\":12}},{\"id\":\"ssm-card-catalog\",\"type\":\"card\",\"data\":{\"card_name\":\"Service Setup\",\"col\":4}},{\"id\":\"ssm-card-service\",\"type\":\"card\",\"data\":{\"card_name\":\"Service Management\",\"col\":4}},{\"id\":\"ssm-card-quality\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Control\",\"col\":4}}]",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "tool",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Smart Service Management",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Setup",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Catalog",
+   "link_count": 0,
+   "link_to": "Service Catalog",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Management",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Request",
+   "link_count": 0,
+   "link_to": "Service Request",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Task",
+   "link_count": 0,
+   "link_to": "Service Task",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Service Request Report",
+   "link_count": 0,
+   "link_to": "Service Request Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Control",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Service Feedback",
+   "link_count": 0,
+   "link_to": "Service Feedback",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "module": "Smart Service Management",
+ "name": "Smart Service Management",
+ "number_cards": [
+  {
+   "label": "Pending Service Requests",
+   "number_card_name": "Pending Service Requests"
+  },
+  {
+   "label": "In Progress Service Requests",
+   "number_card_name": "In Progress Service Requests"
+  },
+  {
+   "label": "Open Service Tasks",
+   "number_card_name": "Open Service Tasks"
+  },
+  {
+   "label": "Low Service Ratings",
+   "number_card_name": "Low Service Ratings"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 30.0,
+ "shortcuts": [
+  {
+   "color": "Purple",
+   "format": "{} Services",
+   "label": "Service Catalog",
+   "link_to": "Service Catalog",
+   "stats_filter": "{\"enabled\":1}",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "format": "{} Pending",
+   "label": "Service Request",
+   "link_to": "Service Request",
+   "stats_filter": "{\"status\":\"Pending Review\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "format": "{} Requests",
+   "label": "Service Request Report",
+   "link_to": "Service Request Report",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "format": "{} Open",
+   "label": "Service Task",
+   "link_to": "Service Task",
+   "stats_filter": "{\"status\":[\"not in\",[\"Completed\",\"Cancelled\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} Feedback",
+   "label": "Service Feedback",
+   "link_to": "Service Feedback",
+   "type": "DocType"
+  }
+ ],
+ "title": "Smart Service Management"
+}

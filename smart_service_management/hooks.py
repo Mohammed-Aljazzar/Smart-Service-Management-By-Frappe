@@ -5,6 +5,8 @@ app_description = "t"
 app_email = "m.i.aljazzar19@gmail.com"
 app_license = "mit"
 
+
+
 # Apps
 # ------------------
 
@@ -148,23 +150,11 @@ app_license = "mit"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"smart_service_management.tasks.all"
-# 	],
-# 	"daily": [
-# 		"smart_service_management.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"smart_service_management.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"smart_service_management.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"smart_service_management.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"smart_service_management.smart_service_management.doctype.service_request.service_request.send_sla_notifications"
+	],
+}
 
 # Testing
 # -------
@@ -246,4 +236,3 @@ app_license = "mit"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

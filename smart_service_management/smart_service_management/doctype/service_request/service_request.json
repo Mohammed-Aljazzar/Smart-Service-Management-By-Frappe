@@ -1,0 +1,304 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "SR-.YYYY.-.####",
+ "creation": "2026-06-17 10:17:50.654976",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "service_catalog",
+  "service_type",
+  "description",
+        "budget",
+        "priority",
+        "assigned_to",
+        "assignment_status",
+        "whatsapp_number",
+        "expected_delivery_date",
+        "sla_due_date",
+        "sla_status",
+        "days_overdue",
+        "col_break_1",
+        "status",
+        "actual_start_date",
+        "completed_on",
+        "closed_on",
+  "section_break_progress",
+  "total_tasks",
+        "completed_tasks",
+        "open_tasks",
+        "overdue_tasks",
+        "progress_percent",
+        "actual_hours",
+        "section_break_notes",
+        "internal_notes",
+        "estimated_hours",
+        "status_history",
+        "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "\u0627\u0644\u0639\u0645\u064a\u0644",
+   "options": "Customer",
+   "placeholder": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0639\u0645\u064a\u0644 \u0627\u0644\u0630\u064a \u064a\u0637\u0644\u0628 \u0627\u0644\u062e\u062f\u0645\u0629",
+   "reqd": 1
+  },
+  {
+   "fieldname": "service_catalog",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Service",
+   "options": "Service Catalog"
+  },
+  {
+   "default": "Development",
+   "fieldname": "service_type",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "\u0646\u0648\u0639 \u0627\u0644\u062e\u062f\u0645\u0629",
+   "options": "Design\nDevelopment\nMarketing\nConsulting\nTraining",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "\u0648\u0635\u0641 \u0627\u0644\u062e\u062f\u0645\u0629",
+   "reqd": 1
+  },
+  {
+   "fieldname": "budget",
+   "fieldtype": "Currency",
+   "label": "\u0627\u0644\u0645\u064a\u0632\u0627\u0646\u064a\u0629",
+   "options": " - Default Currency: USD",
+   "reqd": 1
+  },
+        {
+            "default": "Medium",
+            "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "\u0627\u0644\u0623\u0648\u0644\u0648\u064a\u0629",
+            "options": "Low\nMedium\nHigh\nUrgent"
+        },
+        {
+            "fieldname": "assigned_to",
+            "fieldtype": "Link",
+            "in_filter": 1,
+            "in_list_view": 1,
+            "label": "Assigned To",
+            "options": "User"
+        },
+        {
+            "default": "Unassigned",
+            "fieldname": "assignment_status",
+            "fieldtype": "Select",
+            "in_filter": 1,
+            "label": "Assignment Status",
+            "options": "Unassigned\nAssigned",
+            "read_only": 1
+        },
+        {
+            "fieldname": "whatsapp_number",
+   "fieldtype": "Data",
+   "label": "\u0631\u0642\u0645 \u0648\u0627\u062a\u0633\u0627\u0628",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "expected_delivery_date",
+   "fieldtype": "Date",
+   "label": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u062a\u0633\u0644\u064a\u0645 \u0627\u0644\u0645\u062a\u0648\u0642\u0639"
+  },
+        {
+            "fieldname": "sla_due_date",
+            "fieldtype": "Date",
+            "in_list_view": 1,
+            "label": "SLA Due Date",
+            "read_only": 1
+        },
+        {
+            "default": "On Track",
+            "fieldname": "sla_status",
+            "fieldtype": "Select",
+            "in_filter": 1,
+            "in_list_view": 1,
+            "label": "SLA Status",
+            "options": "On Track\nDue Today\nOverdue\nMet\nBreached\nNot Set",
+            "read_only": 1
+        },
+        {
+            "fieldname": "days_overdue",
+            "fieldtype": "Int",
+            "label": "Days Overdue",
+            "read_only": 1
+        },
+        {
+            "fieldname": "col_break_1",
+            "fieldtype": "Column Break"
+        },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "\u0627\u0644\u062d\u0627\u0644\u0629",
+   "options": "Draft\nPending Review\nApproved\nIn Progress\nCompleted\nClosed\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_start_date",
+   "fieldtype": "Date",
+   "label": "Actual Start Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_on",
+   "fieldtype": "Date",
+   "label": "Completed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "closed_on",
+   "fieldtype": "Date",
+   "label": "Closed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_progress",
+   "fieldtype": "Section Break",
+   "label": "Delivery Progress"
+  },
+  {
+   "fieldname": "total_tasks",
+   "fieldtype": "Int",
+   "label": "Total Tasks",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_tasks",
+   "fieldtype": "Int",
+   "label": "Completed Tasks",
+   "read_only": 1
+  },
+        {
+            "fieldname": "open_tasks",
+            "fieldtype": "Int",
+            "label": "Open Tasks",
+            "read_only": 1
+        },
+        {
+            "fieldname": "overdue_tasks",
+            "fieldtype": "Int",
+            "label": "Overdue Tasks",
+            "read_only": 1
+        },
+        {
+            "fieldname": "progress_percent",
+            "fieldtype": "Percent",
+            "in_list_view": 1,
+            "label": "Progress",
+            "read_only": 1
+        },
+        {
+            "fieldname": "actual_hours",
+            "fieldtype": "Float",
+            "label": "Actual Hours",
+            "read_only": 1
+        },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "\u0645\u0644\u0627\u062d\u0638\u0627\u062a \u062f\u0627\u062e\u0644\u064a\u0629"
+  },
+  {
+   "fieldname": "internal_notes",
+   "fieldtype": "Small Text",
+   "label": "\u0645\u0644\u0627\u062d\u0638\u0627\u062a \u062f\u0627\u062e\u0644\u064a\u0629"
+  },
+        {
+            "fieldname": "estimated_hours",
+            "fieldtype": "Float",
+            "label": "\u0627\u0644\u0633\u0627\u0639\u0627\u062a \u0627\u0644\u0645\u0642\u062f\u0631\u0629"
+        },
+        {
+            "fieldname": "status_history",
+            "fieldtype": "Table",
+            "label": "Status History",
+            "options": "Service Request Status Log",
+            "read_only": 1
+        },
+        {
+            "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Service Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-06-17 17:04:45.243932",
+ "modified_by": "Administrator",
+ "module": "Smart Service Management",
+ "name": "Service Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer",
+ "track_changes": 1
+}

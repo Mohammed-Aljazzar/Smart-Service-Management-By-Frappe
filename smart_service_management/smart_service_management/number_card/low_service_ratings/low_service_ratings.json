@@ -1,0 +1,16 @@
+{
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Service Feedback",
+ "filters_json": "[[\"Service Feedback\",\"rating\",\"<\",3]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Low Service Ratings",
+ "module": "Smart Service Management",
+ "name": "Low Service Ratings",
+ "owner": "Administrator",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Weekly"
+}

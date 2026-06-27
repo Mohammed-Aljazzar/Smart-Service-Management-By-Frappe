@@ -1,0 +1,16 @@
+{
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Service Request",
+ "filters_json": "[[\"Service Request\",\"status\",\"=\",\"In Progress\"]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "In Progress Service Requests",
+ "module": "Smart Service Management",
+ "name": "In Progress Service Requests",
+ "owner": "Administrator",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Weekly"
+}
