@@ -13,6 +13,7 @@
   "default_priority",
   "col_break_1",
   "default_price",
+  "billing_item",
   "default_sla_days",
   "default_estimated_hours",
   "default_assigned_to",
@@ -61,6 +62,12 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Default Price"
+  },
+  {
+   "fieldname": "billing_item",
+   "fieldtype": "Link",
+   "label": "Billing Item",
+   "options": "Item"
   },
   {
    "default": "5",

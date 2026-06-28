@@ -33,6 +33,7 @@ class ServiceRequest(Document):
 		self.set_sla_status()
 		self.set_status_timestamps()
 		self.set_task_metrics()
+		self.set_billing_status()
 		self.validate_budget()
 		self.validate_dates()
 		self.validate_estimated_hours()
@@ -178,6 +179,9 @@ class ServiceRequest(Document):
 		self.progress_percent = metrics["progress_percent"]
 		self.actual_hours = metrics["actual_hours"]
 
+	def set_billing_status(self):
+		self.billing_status = "Invoiced" if self.sales_invoice else "Not Invoiced"
+
 	def validate_budget(self):
 		if self.budget is not None and self.budget < 100:
 			frappe.throw(_("Budget must be at least 100."))
@@ -185,6 +189,9 @@ class ServiceRequest(Document):
 	def validate_dates(self):
 		if self.expected_delivery_date and getdate(self.expected_delivery_date) < getdate(today()):
 			frappe.throw(_("Expected delivery date cannot be in the past."))
+
+		if self.preferred_service_date and getdate(self.preferred_service_date) < getdate(today()):
+			frappe.throw(_("Preferred service date cannot be in the past."))
 
 	def validate_estimated_hours(self):
 		if self.estimated_hours is not None and self.estimated_hours < 0:
@@ -449,9 +456,118 @@ def get_service_catalog_defaults(service_catalog):
 		"default_sla_days": catalog.default_sla_days,
 		"default_estimated_hours": catalog.default_estimated_hours,
 		"default_assigned_to": catalog.default_assigned_to,
+		"billing_item": catalog.billing_item,
 		"description": catalog.description,
 		"task_count": len(catalog.task_templates or []),
 	}
+
+
+@frappe.whitelist()
+def create_sales_invoice(service_request, company=None):
+	doc = frappe.get_doc("Service Request", service_request)
+	doc.check_permission("write")
+
+	if doc.status not in {"Completed", "Closed"}:
+		frappe.throw(_("Sales Invoice can only be created for completed or closed service requests."))
+
+	if doc.sales_invoice:
+		return {
+			"name": doc.sales_invoice,
+			"already_exists": True,
+		}
+
+	if not flt(doc.budget):
+		frappe.throw(_("Budget is required before creating a Sales Invoice."))
+
+	if not frappe.db.exists("DocType", "Sales Invoice"):
+		frappe.throw(_("Sales Invoice is not available. Please install ERPNext first."))
+
+	company = company or frappe.defaults.get_user_default("Company") or frappe.defaults.get_global_default("company")
+	if not company:
+		company = frappe.db.get_single_value("Global Defaults", "default_company")
+	if not company:
+		frappe.throw(_("Default Company is required before creating a Sales Invoice."))
+
+	income_account = get_default_income_account(company)
+	cost_center = get_default_cost_center(company)
+	catalog = frappe.get_cached_doc("Service Catalog", doc.service_catalog) if doc.service_catalog else None
+	item_code = catalog.billing_item if catalog and catalog.get("billing_item") else None
+
+	item_row = {
+		"item_name": catalog.service_name if catalog else doc.service_catalog or doc.name,
+		"description": doc.description or _("Service Request {0}").format(doc.name),
+		"qty": 1,
+		"rate": flt(doc.budget),
+		"income_account": income_account,
+	}
+	if item_code:
+		item_row["item_code"] = item_code
+	if cost_center:
+		item_row["cost_center"] = cost_center
+
+	invoice = frappe.get_doc({
+		"doctype": "Sales Invoice",
+		"customer": doc.customer,
+		"company": company,
+		"posting_date": today(),
+		"set_posting_time": 1,
+		"items": [item_row],
+		"remarks": _("Created from Service Request {0}").format(doc.name),
+	})
+	invoice.insert()
+
+	doc.db_set({
+		"sales_invoice": invoice.name,
+		"billing_status": "Invoiced",
+	})
+
+	create_notification(
+		frappe.session.user,
+		_("Sales Invoice created for {0}").format(doc.name),
+		_("Sales Invoice {0} was created from Service Request {1}.").format(invoice.name, doc.name),
+		reference_doctype="Sales Invoice",
+		reference_name=invoice.name,
+	)
+
+	return {
+		"name": invoice.name,
+		"already_exists": False,
+	}
+
+
+def get_default_income_account(company):
+	account = frappe.db.get_value("Company", company, "default_income_account")
+	if account:
+		return account
+
+	account = frappe.db.get_value(
+		"Account",
+		{
+			"company": company,
+			"root_type": "Income",
+			"is_group": 0,
+		},
+		"name",
+		order_by="is_group asc, name asc",
+	)
+	if not account:
+		frappe.throw(_("Default income account is required for company {0}.").format(frappe.bold(company)))
+	return account
+
+
+def get_default_cost_center(company):
+	return (
+		frappe.db.get_value("Company", company, "cost_center")
+		or frappe.db.get_value(
+			"Cost Center",
+			{
+				"company": company,
+				"is_group": 0,
+			},
+			"name",
+			order_by="is_group asc, name asc",
+		)
+	)
 
 
 def get_task_metrics(service_request):

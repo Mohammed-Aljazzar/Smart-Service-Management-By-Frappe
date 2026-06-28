@@ -49,6 +49,12 @@ frappe.query_reports["Service Request Report"] = {
 			options: "\nOn Track\nDue Today\nOverdue\nMet\nBreached\nNot Set",
 		},
 		{
+			fieldname: "billing_status",
+			label: __("Billing Status"),
+			fieldtype: "Select",
+			options: "\nNot Invoiced\nInvoiced",
+		},
+		{
 			fieldname: "from_date",
 			label: __("Expected From"),
 			fieldtype: "Date",

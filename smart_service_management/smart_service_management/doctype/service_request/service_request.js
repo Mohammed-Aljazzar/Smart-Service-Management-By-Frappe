@@ -264,12 +264,40 @@ function addRelatedButtons(frm) {
     }
 
     if (['Completed', 'Closed'].includes(frm.doc.status)) {
+        if (!frm.doc.sales_invoice) {
+            frm.add_custom_button(
+                'إنشاء فاتورة',
+                function() {
+                    createSalesInvoice(frm);
+                },
+                'Billing'
+            );
+        } else {
+            frm.add_custom_button(
+                'فتح الفاتورة',
+                function() {
+                    frappe.set_route('Form', 'Sales Invoice', frm.doc.sales_invoice);
+                },
+                'Billing'
+            );
+        }
+
         frm.add_custom_button(
             'إضافة تقييم',
             function() {
                 frappe.new_doc('Service Feedback', {
                     service_request: frm.doc.name
                 });
+            },
+            'Related'
+        );
+    }
+
+    if (frm.doc.whatsapp_number) {
+        frm.add_custom_button(
+            'WhatsApp',
+            function() {
+                openWhatsAppStatusMessage(frm);
             },
             'Related'
         );
@@ -423,6 +451,50 @@ function createTemplateTasks(frm) {
             });
         }
     });
+}
+
+function createSalesInvoice(frm) {
+    frappe.confirm(
+        'سيتم إنشاء Sales Invoice بقيمة الميزانية الحالية وربطها بهذا الطلب. هل تريد المتابعة؟',
+        function() {
+            frappe.call({
+                method: 'smart_service_management.smart_service_management.doctype.service_request.service_request.create_sales_invoice',
+                args: {
+                    service_request: frm.doc.name
+                },
+                freeze: true,
+                freeze_message: 'جاري إنشاء الفاتورة...',
+                callback: function(r) {
+                    frm.reload_doc();
+                    if (r.message && r.message.name) {
+                        frappe.show_alert({
+                            message: r.message.already_exists ? 'الفاتورة موجودة مسبقاً' : 'تم إنشاء الفاتورة',
+                            indicator: 'green'
+                        });
+                        frappe.set_route('Form', 'Sales Invoice', r.message.name);
+                    }
+                }
+            });
+        }
+    );
+}
+
+function openWhatsAppStatusMessage(frm) {
+    let number = (frm.doc.whatsapp_number || '').replace(/[^\d]/g, '');
+    if (!number) {
+        frappe.msgprint('رقم واتساب غير صالح.');
+        return;
+    }
+
+    let message = [
+        `مرحباً، تحديث على طلب الخدمة ${frm.doc.name}:`,
+        `الحالة الحالية: ${frm.doc.status || '-'}`,
+        `الخدمة: ${frm.doc.service_catalog || '-'}`,
+        `موعد التسليم المتوقع: ${frm.doc.expected_delivery_date || '-'}`,
+        `حالة SLA: ${frm.doc.sla_status || '-'}`
+    ].join('\n');
+
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
 /**

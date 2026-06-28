@@ -1,0 +1,259 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<section class="ssm-services">
+	<div class="ssm-header">
+		<div>
+			<p class="ssm-eyebrow">Smart Service Management</p>
+			<h1>Request a Service</h1>
+			<p class="ssm-copy">
+				Choose a service, send the request, and the operations team will review it inside ERPNext.
+			</p>
+		</div>
+		<a class="btn btn-primary" href="#service-request-form">Start Request</a>
+	</div>
+
+	<div class="ssm-service-grid">
+		{% for service in services %}
+		<article class="ssm-service-card" data-service="{{ service.name }}">
+			<div class="ssm-card-top">
+				<h2>{{ service.service_name or service.name }}</h2>
+				<span>{{ service.service_type }}</span>
+			</div>
+			<div class="ssm-description">{{ service.description or "Service details will be confirmed after review." }}</div>
+			<dl>
+				<div>
+					<dt>Starting Price</dt>
+					<dd>{{ frappe.format(service.default_price, {"fieldtype": "Currency"}) if service.default_price else "On review" }}</dd>
+				</div>
+				<div>
+					<dt>SLA</dt>
+					<dd>{{ service.default_sla_days or 5 }} days</dd>
+				</div>
+				<div>
+					<dt>Priority</dt>
+					<dd>{{ service.default_priority or "Medium" }}</dd>
+				</div>
+			</dl>
+			<button class="btn btn-sm btn-default ssm-select-service" type="button" data-service="{{ service.name }}">
+				Select
+			</button>
+		</article>
+		{% endfor %}
+	</div>
+
+	<form id="service-request-form" class="ssm-form">
+		<h2>Service Request</h2>
+		<div class="row">
+			<div class="col-md-6">
+				<label for="service_catalog">Service</label>
+				<select class="form-control" id="service_catalog" name="service_catalog" required>
+					<option value="">Select a service</option>
+					{% for service in services %}
+					<option value="{{ service.name }}">{{ service.service_name or service.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-md-6">
+				<label for="preferred_service_date">Preferred Date</label>
+				<input class="form-control" id="preferred_service_date" name="preferred_service_date" type="date">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<label for="customer_name">Customer Name</label>
+				<input class="form-control" id="customer_name" name="customer_name" type="text" required>
+			</div>
+			<div class="col-md-4">
+				<label for="email">Email</label>
+				<input class="form-control" id="email" name="email" type="email">
+			</div>
+			<div class="col-md-4">
+				<label for="whatsapp_number">WhatsApp</label>
+				<input class="form-control" id="whatsapp_number" name="whatsapp_number" type="tel">
+			</div>
+		</div>
+		<label for="description">Request Details</label>
+		<textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+		<div class="ssm-form-actions">
+			<button class="btn btn-primary" type="submit">Submit Request</button>
+			<p id="ssm-form-message" role="status"></p>
+		</div>
+	</form>
+</section>
+
+<style>
+	.ssm-services {
+		max-width: 1120px;
+		margin: 0 auto;
+		padding: 32px 16px 56px;
+	}
+
+	.ssm-header {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 24px;
+		margin-bottom: 28px;
+	}
+
+	.ssm-eyebrow {
+		margin-bottom: 8px;
+		color: var(--text-muted);
+		font-weight: 600;
+	}
+
+	.ssm-header h1 {
+		margin: 0 0 8px;
+		font-size: clamp(2rem, 4vw, 3.5rem);
+		line-height: 1.05;
+	}
+
+	.ssm-copy {
+		max-width: 680px;
+		margin: 0;
+		color: var(--text-muted);
+		font-size: 1.05rem;
+	}
+
+	.ssm-service-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 16px;
+		margin-bottom: 28px;
+	}
+
+	.ssm-service-card,
+	.ssm-form {
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		background: var(--card-bg);
+	}
+
+	.ssm-service-card {
+		padding: 18px;
+	}
+
+	.ssm-card-top {
+		display: flex;
+		align-items: start;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.ssm-card-top h2,
+	.ssm-form h2 {
+		margin: 0;
+		font-size: 1.2rem;
+	}
+
+	.ssm-card-top span {
+		flex: 0 0 auto;
+		border: 1px solid var(--border-color);
+		border-radius: 999px;
+		padding: 3px 10px;
+		color: var(--text-muted);
+		font-size: 0.82rem;
+	}
+
+	.ssm-description {
+		min-height: 72px;
+		color: var(--text-muted);
+	}
+
+	.ssm-service-card dl {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8px;
+		margin: 16px 0;
+	}
+
+	.ssm-service-card dt {
+		color: var(--text-muted);
+		font-size: 0.78rem;
+		font-weight: 600;
+	}
+
+	.ssm-service-card dd {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	.ssm-form {
+		padding: 22px;
+	}
+
+	.ssm-form .row {
+		margin-top: 14px;
+	}
+
+	.ssm-form label {
+		margin-top: 14px;
+		font-weight: 600;
+	}
+
+	.ssm-form-actions {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		margin-top: 18px;
+	}
+
+	#ssm-form-message {
+		margin: 0;
+		color: var(--text-muted);
+	}
+
+	@media (max-width: 768px) {
+		.ssm-header,
+		.ssm-form-actions {
+			align-items: stretch;
+			flex-direction: column;
+		}
+
+		.ssm-service-card dl {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	frappe.ready(function() {
+		document.querySelectorAll('.ssm-select-service').forEach(function(button) {
+			button.addEventListener('click', function() {
+				document.getElementById('service_catalog').value = button.dataset.service;
+				document.getElementById('service-request-form').scrollIntoView({ behavior: 'smooth' });
+			});
+		});
+
+		document.getElementById('service-request-form').addEventListener('submit', function(event) {
+			event.preventDefault();
+			let form = event.currentTarget;
+			let button = form.querySelector('button[type="submit"]');
+			let message = document.getElementById('ssm-form-message');
+			let values = Object.fromEntries(new FormData(form).entries());
+
+			button.disabled = true;
+			message.textContent = 'Submitting request...';
+
+			frappe.call({
+				method: 'smart_service_management.portal.create_customer_service_request',
+				args: values,
+				callback: function(r) {
+					if (r.message && r.message.name) {
+						form.reset();
+						message.textContent = `Request ${r.message.name} was created successfully.`;
+					}
+				},
+				error: function() {
+					message.textContent = 'Could not submit the request. Please review the fields and try again.';
+				},
+				always: function() {
+					button.disabled = false;
+				}
+			});
+		});
+	});
+</script>
+{% endblock %}

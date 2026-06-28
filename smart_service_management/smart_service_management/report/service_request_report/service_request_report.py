@@ -83,6 +83,12 @@ def get_columns():
 			"width": 130,
 		},
 		{
+			"fieldname": "preferred_service_date",
+			"label": _("Preferred Date"),
+			"fieldtype": "Date",
+			"width": 120,
+		},
+		{
 			"fieldname": "days_overdue",
 			"label": _("Days Overdue"),
 			"fieldtype": "Int",
@@ -131,6 +137,19 @@ def get_columns():
 			"width": 120,
 		},
 		{
+			"fieldname": "billing_status",
+			"label": _("Billing"),
+			"fieldtype": "Data",
+			"width": 115,
+		},
+		{
+			"fieldname": "sales_invoice",
+			"label": _("Sales Invoice"),
+			"fieldtype": "Link",
+			"options": "Sales Invoice",
+			"width": 150,
+		},
+		{
 			"fieldname": "next_action",
 			"label": _("Next Action"),
 			"fieldtype": "Data",
@@ -156,6 +175,7 @@ def get_data(filters):
 			"status",
 			"sla_status",
 			"expected_delivery_date",
+			"preferred_service_date",
 			"sla_due_date",
 			"days_overdue",
 			"progress_percent",
@@ -165,6 +185,8 @@ def get_data(filters):
 			"overdue_tasks",
 			"actual_hours",
 			"budget",
+			"billing_status",
+			"sales_invoice",
 			"creation",
 			"completed_on",
 			"closed_on",
@@ -195,6 +217,7 @@ def build_filters(filters):
 		"assignment_status",
 		"status",
 		"sla_status",
+		"billing_status",
 	):
 		if filters.get(fieldname):
 			request_filters.append([fieldname, "=", filters[fieldname]])
